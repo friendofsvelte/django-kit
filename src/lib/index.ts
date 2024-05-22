@@ -4,18 +4,23 @@ import type {MessageOut} from "./types";
 
 import {SECRET_BASE_API} from "$env/static/private";
 
-export type ActionInfo = {
+export type NamedActionInfo = {
     name: string,
+    method: 'GET' | 'POST'
+}
+
+export type PathActionInfo = {
+    path: string,
     method: 'GET' | 'POST'
 }
 
 /*
 This function is used to create action triggers for django's api endpoints' name;
 path('do-something/', do_something, name='do_something_view'), `do_something_view` is the name of the endpoint.
-export const actions = via_route_name("do-something-view");
+export const actions = via_route_name("do_something_view");
  */
 export const via_route_name = (
-    proxy_paths: string | string[] | ActionInfo[],
+    proxy_paths: string | string[] | NamedActionInfo[],
     django_base_api: string = SECRET_BASE_API) => {
     let actions: Actions = {};
     if (typeof proxy_paths === 'string') {
@@ -66,7 +71,7 @@ path('do-something/', do_something, name='do_something_view'), `do-something/` i
 export const actions = via_route(["do-something/", "do-something-else/"], "parent-path/");
  */
 export const via_route = (
-    proxy_paths: string[] | ActionInfo[], prefix = "",
+    proxy_paths: string[] | PathActionInfo[], prefix = "",
     django_base_api: string = SECRET_BASE_API) => {
     let actions: Actions = {};
     proxy_paths.map((proxy_action) => {
@@ -80,13 +85,15 @@ export const via_route = (
         const action = {
             [proxy_action.path]: async (event: RequestEvent) => {
                 try {
-                    const response = await event.fetch(`${django_base_api}/${proxy_action.path}`, {
-                        method: proxy_action.method,
-                        body: await event.request.formData(),
-                        headers: {
-                            "Content-Type": "multipart/form-data"
-                        }
-                    });
+                    const form_data = await event.request.formData();
+                    let url = `${django_base_api}/${proxy_action.path}`;
+                    let options: RequestInit = {method: proxy_action.method}
+                    if (proxy_action.method === 'GET') {
+                        url = `${url}?${new URLSearchParams(form_data as any).toString()}`;
+                    } else {
+                        options = {...options, body: form_data};
+                    }
+                    const response = await event.fetch(url, options);
                     const data = await response.json();
                     if (response.ok) {
                         return data;
