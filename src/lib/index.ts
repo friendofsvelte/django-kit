@@ -30,7 +30,7 @@ export const via_route_name = (
                 try {
                     const form_data = await event.request.formData();
 
-                    let url = `${django_base_api}/p/?url_name=${proxy_action.name}`;
+                    let url = `${django_base_api}/trvun/?url_name=${proxy_action.name}`;
                     let options: RequestInit = {method: proxy_action.method};
 
                     if (proxy_action.method === 'GET') {
