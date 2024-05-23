@@ -1,6 +1,6 @@
 {
 	"name": "django-kit",
-	"version": "0.0.1",
+	"version": "0.0.1-qc",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",

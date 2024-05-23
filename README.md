@@ -20,7 +20,7 @@ npm install @friendofsvelte/django-kit
 Second, in your Django project, install the package using pip:
 
 ```bash
-pip install djapified-kit
+pip install django-kit-fos
 ```
 
 ## Usage

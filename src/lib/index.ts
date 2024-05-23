@@ -16,8 +16,8 @@ export type PathActionInfo = {
 
 /*
 This function is used to create action triggers for django's api endpoints' name;
-path('do-something/', do_something, name='do_something_view'), `do_something_view` is the name of the endpoint.
-export const actions = via_route_name("do_something_view");
+path('do-something/', do_something, name='do_something_view_name'), `do_something_view_name` is the name of the endpoint.
+export const actions = via_route_name("do_something_view_name");
  */
 export const via_route_name = (
     proxy_paths: string | string[] | NamedActionInfo[],
