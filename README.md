@@ -31,11 +31,10 @@ In your Django project, add the following to your `urls.py`:
 
 ```python
 from django.urls import path
-from django.http import JsonResponse
-from django_kit_fos import patterns
+from django_kit_fos import trigger_pattern
 
 urlpatterns = [
-    path('api/', lambda request: JsonResponse({'message': 'Hello from Django!'})),
+    # Your other paths
 ] + trigger_pattern
 ```
 
