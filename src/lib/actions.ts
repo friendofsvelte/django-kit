@@ -1,4 +1,4 @@
-import {type Actions, fail, type RequestEvent} from '@sveltejs/kit';
+import {type Actions, fail, redirect, type RequestEvent} from '@sveltejs/kit';
 // @ts-ignore
 import type {MessageOut} from "./types";
 
@@ -68,36 +68,37 @@ export const via_route_name =
             }
             const action = {
                 [proxy_action.name]: async (event: RequestEvent) => {
+                    const form_data = await event.request.formData();
+                    let url = `${opt_.django_base_api}/trvun/?url_name=${proxy_action.name}`;
+                    let options: RequestInit = {method: proxy_action.method};
+
+                    if (proxy_action.method === 'GET')
+                        url = `${url}&${new URLSearchParams(form_data as any).toString()}`;
+                    else options = {...options, body: form_data};
+
+                    let response: Response;
+                    let data: any;
                     try {
-                        const form_data = await event.request.formData();
-
-                        let url = `${opt_.django_base_api}/trvun/?url_name=${proxy_action.name}`;
-                        let options: RequestInit = {method: proxy_action.method};
-
-                        if (proxy_action.method === 'GET') {
-                            url = `${url}&${new URLSearchParams(form_data as any).toString()}`;
-                        } else {
-                            options = {...options, body: form_data};
-                        }
-                        const response = await event.fetch(url, options);
-
-                        if (proxy_action.allow_cookies || opt_.allow_cookies) {
-                            assign_cookies(event, response);
-                        }
-
-                        const data = await response.json();
-
-                        if (response.ok) {
-                            return data;
-                        }
-                        return fail(response.status, data);
+                        response = await event.fetch(url, options);
+                        data = await response.json();
                     } catch (e) {
                         console.log(e);
+                        return fail(500, {
+                            message: 'Something went wrong.',
+                            message_type: 'error',
+                            alias: 'internal_server_error'
+                        } as MessageOut);
                     }
-                    return fail(500, {
-                        message: 'Something went wrong.',
-                        message_type: 'error',
-                        alias: 'internal_server_error'
+
+                    if (proxy_action.allow_cookies || opt_.allow_cookies) {
+                        assign_cookies(event, response);
+                    }
+                    if (response.status === 302) {
+                        redirect(response.status, response.headers.get('Location') || '/',);
+                    }
+                    if (response.ok) return data;
+                    return fail(response.status, {
+                        message: 'Something went wrong.', message_type: 'error', alias: 'internal_server_error'
                     } as MessageOut);
                 }
             };
