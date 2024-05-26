@@ -13,7 +13,7 @@ export type NamedActionInfo = {
 export type PathActionInfo = {
     path: string,
     method: 'GET' | 'POST',
-    assign_cookies?: boolean
+    allow_cookies?: boolean
 }
 
 function assign_cookies(event: RequestEvent, response: Response) {
@@ -107,7 +107,7 @@ export const via_route = (
     let actions: Actions = {};
     proxy_paths.map((proxy_action) => {
         if (typeof proxy_action === "string") {
-            proxy_action = {path: proxy_action, method: "POST", assign_cookies: false};
+            proxy_action = {path: proxy_action, method: "POST", allow_cookies: false};
         }
         if (prefix && !prefix.endsWith("/")) {
             prefix += "/";
