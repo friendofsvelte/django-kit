@@ -16,6 +16,11 @@ export type PathActionInfo = {
     allow_cookies?: boolean
 }
 
+const default_options = {
+    django_base_api: SECRET_BASE_API,
+    allow_cookies: false
+}
+
 function assign_cookies(event: RequestEvent, response: Response) {
     const cookies = response.headers.get('set-cookie');
     if (cookies) {
@@ -45,12 +50,12 @@ export const actions = via_route_name("do_something_view_name");
  */
 export const via_route_name = (
     proxy_paths: string | string[] | NamedActionInfo[],
-    django_base_api: string = SECRET_BASE_API,
-    allow_cookies: boolean = false) => {
+    opt_ = default_options) => {
     let actions: Actions = {};
     if (typeof proxy_paths === 'string') {
         proxy_paths = [proxy_paths];
     }
+
     proxy_paths.map((proxy_action) => {
         if (typeof proxy_action === 'string') {
             proxy_action = {name: proxy_action, method: 'POST', allow_cookies: false};
@@ -60,7 +65,7 @@ export const via_route_name = (
                 try {
                     const form_data = await event.request.formData();
 
-                    let url = `${django_base_api}/trvun/?url_name=${proxy_action.name}`;
+                    let url = `${opt_.django_base_api}/trvun/?url_name=${proxy_action.name}`;
                     let options: RequestInit = {method: proxy_action.method};
 
                     if (proxy_action.method === 'GET') {
@@ -70,7 +75,7 @@ export const via_route_name = (
                     }
                     const response = await event.fetch(url, options);
 
-                    if (proxy_action.allow_cookies || allow_cookies) {
+                    if (proxy_action.allow_cookies || opt_.allow_cookies) {
                         assign_cookies(event, response);
                     }
 
@@ -101,23 +106,22 @@ path('do-something/', do_something, name='do_something_view'), `do-something/` i
 export const actions = via_route(["do-something/", "do-something-else/"], "parent-path/");
  */
 export const via_route = (
-    proxy_paths: string[] | PathActionInfo[], prefix = "",
-    django_base_api: string = SECRET_BASE_API,
-    allow_cookies: boolean = false) => {
+    proxy_paths: string[] | PathActionInfo[],
+    opt_ = {...default_options, prefix: ''}) => {
     let actions: Actions = {};
     proxy_paths.map((proxy_action) => {
         if (typeof proxy_action === "string") {
             proxy_action = {path: proxy_action, method: "POST", allow_cookies: false};
         }
-        if (prefix && !prefix.endsWith("/")) {
-            prefix += "/";
+        if (opt_.prefix && !opt_.prefix.endsWith("/")) {
+            opt_.prefix += "/";
         }
-        proxy_action.path = prefix + proxy_action.path;
+        proxy_action.path = opt_.prefix + proxy_action.path;
         const action = {
             [proxy_action.path]: async (event: RequestEvent) => {
                 try {
                     const form_data = await event.request.formData();
-                    let url = `${django_base_api}/${proxy_action.path}`;
+                    let url = `${opt_.django_base_api}/${proxy_action.path}`;
                     let options: RequestInit = {method: proxy_action.method}
                     if (proxy_action.method === 'GET') {
                         url = `${url}?${new URLSearchParams(form_data as any).toString()}`;
@@ -126,7 +130,7 @@ export const via_route = (
                     }
                     const response = await event.fetch(url, options);
 
-                    if (proxy_action.allow_cookies || allow_cookies) {
+                    if (proxy_action.allow_cookies || opt_.allow_cookies) {
                         assign_cookies(event, response);
                     }
                     const data = await response.json();
