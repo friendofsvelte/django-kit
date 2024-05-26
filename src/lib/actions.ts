@@ -32,6 +32,7 @@ function assign_cookies(event: RequestEvent, response: Response) {
                     sameSite = attrValue;
                 }
             });
+            // @ts-ignore
             event.cookies.set(key, value, {path, sameSite});
         });
     }
