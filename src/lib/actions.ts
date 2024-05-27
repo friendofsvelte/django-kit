@@ -75,9 +75,7 @@ export const via_route_name =
                         redirect(response.status, response.headers.get('Location') || '/',);
                     }
                     if (response.ok) return data;
-                    return fail(response.status, {
-                        message: 'Something went wrong.', message_type: 'error', alias: 'internal_server_error'
-                    } as MessageOut);
+                    return fail(response.status, data);
                 }
             };
             actions = {...actions, ...action};
