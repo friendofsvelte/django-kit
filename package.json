@@ -1,6 +1,6 @@
 {
 	"name": "@friendofsvelte/django-kit",
-	"version": "0.0.1-alpha.102",
+	"version": "0.0.1-dev.01",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -14,6 +14,10 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
+		},
+		"./utils": {
+			"types": "./dist/utils.d.ts",
+			"svelte": "./dist/utils.js"
 		}
 	},
 	"files": [
