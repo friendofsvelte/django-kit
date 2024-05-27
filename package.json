@@ -17,7 +17,7 @@
 		},
 		"./utils": {
 			"types": "./dist/utils.d.ts",
-			"svelte": "./dist/utils.js"
+			"import": "./dist/utils.js"
 		}
 	},
 	"files": [
