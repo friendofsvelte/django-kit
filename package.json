@@ -18,6 +18,14 @@
 		"./utils": {
 			"types": "./dist/utils.d.ts",
 			"import": "./dist/utils.js"
+		},
+		"./types": {
+			"types": "./dist/types.d.ts",
+			"import": "./dist/types.js"
+		},
+		"./flash": {
+			"types": "./dist/flash_message.d.ts",
+			"import": "./dist/flash_message.js"
 		}
 	},
 	"files": [
