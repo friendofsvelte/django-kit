@@ -15,13 +15,9 @@
     }, toast.auto_dismiss_duration);
 </script>
 
-<div class="z-30 toast-notification relative animate-shake"
-     class:success={toast.message_type === "success"}
-     class:error={toast.message_type === "error"}
-     class:warning={toast.message_type === "warning"}
-     class:info={toast.message_type === "info"}>
+<div class="toast-notification {toast.message_type}">
     <div class="toast-notification__head">
-        {statusIcons[toast.message_type]}
+        <span class="toast-notification__icon"></span>
         <h3 class="toast-notification__message">{toast.message}</h3>
         <button class="toast-notification__close" on:click={() => dismiss_toast(toast.id)}>
             {'✕'}

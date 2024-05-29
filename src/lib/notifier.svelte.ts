@@ -11,7 +11,8 @@ export function add_toast(message: MessageOut, auto_dismiss_duration = AUTO_DISM
 
 
 export function dismiss_toast(toastId: string) {
-    delete toasts[toasts.findIndex((toast) => toast.id === toastId)];
+    const index = toasts.findIndex((toast) => toast && toast.id === toastId);
+    toasts.splice(index, 1);
 }
 
 export function dismiss_all_toasts() {

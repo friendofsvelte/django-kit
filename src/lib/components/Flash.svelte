@@ -15,7 +15,6 @@
             alias: 'server_error',
             message_type: 'error'
         },
-        animation_ = {easing: quintOut, duration: 500},
         children
     }
         = $props();
@@ -34,16 +33,13 @@
     let page_data: any = $page.data;
     let error_data: any = $page.error;
 
+    $inspect(toasts);
     $effect(() => {
-        trigger_message(form_data);
-        trigger_message(page_data as MessageOut);
-        trigger_message(error_data as MessageOut);
+        if (trigger_message(form_data)) form_data = {};
+        if (trigger_message(page_data)) page_data = {};
+        if (trigger_message(error_data)) error_data = {};
 
-        error_data = form_data = page_data = {};
-
-        if ($page.status >= 400 && !error_triggered) {
-            add_toast(error_toast);
-        }
+        if ($page.status >= 400 && !error_triggered) add_toast(error_toast as MessageOut);
     });
 
     function assign_flash_message() {
@@ -72,7 +68,7 @@
     {:else}
         <div class="toast-notifications">
             {#each toasts as toast (toast.id)}
-                <div transition:fade animate:flip="{animation_}" class="toast-notification">
+                <div transition:fade animate:flip={{easing: quintOut, duration: 500}}>
                     <Toast {toast}/>
                 </div>
             {/each}
