@@ -2,12 +2,6 @@
     import {dismiss_toast} from "$lib/notifier.svelte.js";
     import type {ToastNotification} from "$lib/types.js";
 
-    const statusIcons = {
-        success: '✅',
-        error: '🚨',
-        warning: '⚠️',
-        info: 'ℹ️'
-    };
     export let toast: ToastNotification & { message_type: keyof typeof statusIcons };
 
     setTimeout(() => {

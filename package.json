@@ -26,7 +26,8 @@
 		"./flash": {
 			"types": "./dist/flash_message.d.ts",
 			"import": "./dist/flash_message.js"
-		}
+		},
+		"./styles/*.css": "./dist/styles/*.css"
 	},
 	"files": [
 		"dist",

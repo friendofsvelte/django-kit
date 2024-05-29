@@ -38,8 +38,6 @@
         if (trigger_message(form_data)) form_data = {};
         if (trigger_message(page_data)) page_data = {};
         if (trigger_message(error_data)) error_data = {};
-
-        if ($page.status >= 400 && !error_triggered) add_toast(error_toast as MessageOut);
     });
 
     function assign_flash_message() {
