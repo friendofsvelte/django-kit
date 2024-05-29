@@ -22,7 +22,7 @@
     $effect(() => {
         trigger_message($page.form);
         trigger_message($page.data);
-        trigger_message($page.error)
+        trigger_message($page.error);
     });
 
     function assign_flash_message() {

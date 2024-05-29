@@ -15,6 +15,11 @@ keeping the reactivity intact, `$page.form` is updated automatically when the fo
 
 > Using Django's [Djapy](https://djapy.io/) is recommended for a more seamless integration.
 
+### Features
+
+- Use Django's forms and validation with SvelteKit.
+- Flash messages are automatically shown in SvelteKit.
+
 ## Installation
 
 First, in your SvelteKit project, install the package using npm:
