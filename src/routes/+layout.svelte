@@ -11,10 +11,6 @@
 <Flash/>
 {@render children()}
 
-<button on:click={()=>{
-    add_toast({
-        message: 'Hello World',
-        message_type: 'success',
-    })
-}}>Add Toast
+<button onclick={()=>{add_toast({message: 'Hello World', message_type: 'success',})}}>
+    Add Toast
 </button>

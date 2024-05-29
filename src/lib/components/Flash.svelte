@@ -6,30 +6,23 @@
     import {parse} from 'cookie';
     import {afterNavigate} from '$app/navigation';
     import type {FlashMessage, MessageOut} from "$lib/types.js";
-    import {add_toast, toasts} from "$lib/notifier.svelte.js";
+    import {add_toast, notifier} from "$lib/notifier.svelte.js";
     import Toast from "$lib/components/Toast.svelte";
+    import {untrack} from "svelte";
 
     let {children} = $props();
 
     function trigger_message(msg_source: MessageOut) {
         if (msg_source && msg_source?.message) {
-            if (msg_source?.message) {
-                // error_triggered = true;
-                add_toast({...msg_source, message_type: msg_source.message_type || 'warning'});
-                return true;
-            }
+            const toast = {...msg_source, message_type: msg_source?.message_type || 'warning'};
+            untrack(() => add_toast(toast));
         }
     }
 
-    let form_data: any = $page.form;
-    let page_data: any = $page.data;
-    let error_data: any = $page.error;
-
-    $inspect(toasts);
     $effect(() => {
-        if (trigger_message(form_data)) form_data = {};
-        if (trigger_message(page_data)) page_data = {};
-        if (trigger_message(error_data)) error_data = {};
+        trigger_message($page.form);
+        trigger_message($page.data);
+        trigger_message($page.error)
     });
 
     function assign_flash_message() {
@@ -52,12 +45,12 @@
     });
 </script>
 
-{#if toasts.length}
+{#if notifier.toasts.length}
     {#if children}
         {@render children()}
     {:else}
         <div class="toast-notifications">
-            {#each toasts as toast (toast.id)}
+            {#each notifier.toasts as toast (toast.id)}
                 <div transition:fade animate:flip={{easing: quintOut, duration: 500}}>
                     <Toast {toast}/>
                 </div>

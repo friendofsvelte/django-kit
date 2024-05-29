@@ -1,6 +1,6 @@
 {
   "name": "@friendofsvelte/django-kit",
-  "version": "0.0.1-dev.104",
+  "version": "0.0.1-dev.105",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
@@ -33,8 +33,8 @@
       "svelte": "./dist/components/*.svelte"
     },
     "./notifier": {
-      "types": "./dist/notifier.d.ts",
-      "import": "./dist/notifier.js"
+      "types": "./dist/notifier.svelte.d.ts",
+      "import": "./dist/notifier.svelte.js"
     }
   },
   "files": [
