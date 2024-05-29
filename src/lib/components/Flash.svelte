@@ -6,18 +6,10 @@
     import {parse} from 'cookie';
     import {afterNavigate} from '$app/navigation';
     import type {FlashMessage, MessageOut} from "$lib/types.js";
-    import {add_toast, error_triggered, toasts} from "$lib/notifier.svelte.js";
+    import {add_toast, toasts} from "$lib/notifier.svelte.js";
     import Toast from "$lib/components/Toast.svelte";
 
-    let {
-        error_toast = {
-            message: 'Something went wrong during the request. Please report this to the developers.',
-            alias: 'server_error',
-            message_type: 'error'
-        },
-        children
-    }
-        = $props();
+    let {children} = $props();
 
     function trigger_message(msg_source: MessageOut) {
         if (msg_source && msg_source?.message) {
