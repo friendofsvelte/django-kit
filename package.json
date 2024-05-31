@@ -29,7 +29,7 @@
     },
     "./styles/*.css": "./dist/styles/*.css",
     "./components/*.svelte": {
-      "types": "./dist/components/*.d.ts",
+      "types": "./dist/components/*.svelte.d.ts",
       "svelte": "./dist/components/*.svelte"
     },
     "./notifier": {
