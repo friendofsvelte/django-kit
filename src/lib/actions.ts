@@ -70,10 +70,13 @@ export const via_route_name =
                             alias: 'internal_server_error'
                         } as MessageOut);
                     }
-                    if ("message" in data && typeof data.message === "string") {
-                        put_flash(event.cookies, data as MessageOut);
-                    }
                     if ("redirect" in data && typeof data.redirect === "string" && data.redirect.startsWith("/")) {
+                        if ("message" in data && typeof data.message === "string") {
+                            put_flash(event.cookies, {
+                                ...data as MessageOut,
+                                path: data.redirect
+                            });
+                        }
                         redirect(303, data.redirect);
                     }
 

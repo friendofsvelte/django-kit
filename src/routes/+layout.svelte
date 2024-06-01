@@ -3,12 +3,15 @@
     import {quintOut} from "svelte/easing";
     import "$lib/styles/toast.css";
     import {add_toast} from "$lib/notifier.svelte";
+    import PutFlash from "$lib/components/PutFlash.svelte";
 
     let {children} = $props();
     console.log(children)
 </script>
 
+<PutFlash/>
 <Flash/>
+
 {@render children()}
 
 <button onclick={()=>{add_toast({message: 'Hello World', message_type: 'success',})}}>
