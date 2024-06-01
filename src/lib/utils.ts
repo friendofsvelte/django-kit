@@ -1,24 +1,11 @@
 import type {RequestEvent} from "@sveltejs/kit";
+import {parseString, splitCookiesString} from 'set-cookie-parser';
 
-export const assign_cookies =
-    (event: RequestEvent, response: Response) => {
-        const cookies = response.headers.get('set-cookie');
-        if (cookies) {
-            cookies.split(',').forEach((cookie) => {
-                const [key, ...rest] = cookie.trim().split('=');
-                const value = rest.join('=').split(';')[0];
-                let path = '/';
-                let sameSite = 'Lax';
-                rest.join('=').split(';').slice(1).forEach(attr => {
-                    const [attrKey, attrValue] = attr.trim().split('=');
-                    if (attrKey.toLowerCase() === 'path') {
-                        path = attrValue;
-                    } else if (attrKey.toLowerCase() === 'samesite') {
-                        sameSite = attrValue;
-                    }
-                });
-                // @ts-ignore
-                event.cookies.set(key, value, {path, sameSite});
-            });
-        }
+export const assign_cookies = (event: RequestEvent, response: Response) => {
+    const cookiesHeader = response.headers.get('set-cookie');
+    if (!cookiesHeader) return;
+    for (const str of splitCookiesString(cookiesHeader)) {
+        const {name, value, ...options} = parseString(str);
+        event.cookies.set(name, value, {...options});
     }
+};
