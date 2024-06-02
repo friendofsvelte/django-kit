@@ -41,7 +41,6 @@
         }
     }
 
-
     afterNavigate(() => {
         assign_flash_message();
     });
