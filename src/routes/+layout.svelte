@@ -1,19 +1,17 @@
 <script>
-    import Flash from "$lib/components/DefaultFlash.svelte";
-    import {quintOut} from "svelte/easing";
+    import DefaultFlash from "$lib/components/DefaultFlash.svelte";
     import "$lib/styles/toast.css";
-    import {add_toast} from "$lib/notifier.svelte";
+    import {add_toast, dismiss_toast_after} from "$lib/notifier.svelte";
     import PutFlash from "$lib/components/PutFlash.svelte";
 
     let {children} = $props();
-    console.log(children)
 </script>
 
 <PutFlash/>
-<Flash/>
+<DefaultFlash/>
 
 {@render children()}
 
-<button onclick={()=>{add_toast({message: 'Hello World', message_type: 'success',})}}>
+<button onclick={()=>{dismiss_toast_after(add_toast({message: 'Hello World', message_type: 'success',}))}}>
     Add Toast
 </button>

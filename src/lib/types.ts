@@ -9,11 +9,14 @@ type ActionPathRequired = {
     };
 }
 
-export type Message = {
+export type BaseMessage = {
     message_type: MessageType
-    alias: string;
     message: string;
 } & ActionPathRequired;
+
+export type Message = {
+    alias: string;
+} & BaseMessage;
 
 export type MessageFlux = ({
     message_type?: MessageType
@@ -31,5 +34,5 @@ export type FlashRedirect = (
 ) => ReturnType<typeof redirect>;
 
 export type FlashMessage = { path: string; } & Message;
-export type BaseToast = { auto_dismiss_duration: number; } & Message;
+export type BaseToast = { auto_dismiss_duration: number; } & BaseMessage;
 export type Toast = { id: string; } & BaseToast;

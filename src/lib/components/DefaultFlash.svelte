@@ -4,8 +4,9 @@
     import {quintOut} from 'svelte/easing';
     import {notifier} from "$lib/notifier.svelte.js";
     import Toast from "$lib/components/DefaultToast.svelte";
+    import type {Snippet} from "svelte";
 
-    let {children} = $props();
+    let {children}: { children?: Snippet } = $props();
 </script>
 
 {#if notifier.toasts.length}

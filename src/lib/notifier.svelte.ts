@@ -1,4 +1,4 @@
-import type {Message, Toast} from "$lib/types.js";
+import type {BaseMessage, Toast} from "$lib/types.js";
 
 
 const AUTO_DISMISS_DURATION = 7777;
@@ -16,7 +16,7 @@ export let notifier = $state({
 /*
 Add a toast to the notifier
  */
-export function add_toast(message: Message, auto_dismiss_duration = AUTO_DISMISS_DURATION) {
+export function add_toast(message: BaseMessage, auto_dismiss_duration = AUTO_DISMISS_DURATION) {
     const toast: Toast = {...message, auto_dismiss_duration, id: crypto.randomUUID(),};
     notifier.toasts.push(toast);
     return toast;
@@ -37,7 +37,6 @@ export function dismiss_toast_after(toast: Toast) {
     setTimeout(() => {
         dismiss_toast(toast.id);
     }, toast.auto_dismiss_duration);
-    return toast;
 }
 
 /*
