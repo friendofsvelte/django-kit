@@ -1,8 +1,8 @@
 <script lang="ts">
     import {dismiss_toast} from "$lib/notifier.svelte.js";
-    import type {ToastNotification} from "$lib/types.js";
+    import type {Toast} from "$lib/types.js";
 
-    export let toast: ToastNotification & { message_type: keyof typeof statusIcons };
+    export let toast: Toast & { message_type: keyof typeof statusIcons };
 
     setTimeout(() => {
         dismiss_toast(toast.id);

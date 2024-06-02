@@ -2,11 +2,6 @@ import {type Cookies, redirect} from "@sveltejs/kit";
 
 type MessageType = 'success' | 'error' | 'warning' | 'info';
 
-type MessageOutCommon = {
-    message_type: MessageType
-    alias: string;
-};
-
 type ActionPathRequired = {
     action?: {
         path: string;
@@ -14,25 +9,27 @@ type ActionPathRequired = {
     };
 }
 
-type MessageSingle = MessageOutCommon & {
+export type Message = {
+    message_type: MessageType
+    alias: string;
     message: string;
-    messages?: never;
-};
+} & ActionPathRequired;
 
-export type MessageOut = MessageSingle & ActionPathRequired;
+export type MessageFlux = ({
+    message_type?: MessageType
+    alias?: string;
+    message?: string;
+} & ActionPathRequired) | null;
 
 export type RedirectStatus = 300 | 301 | 302 | 303 | 304 | 305 | 306 | 307 | 308;
 
 export type FlashRedirect = (
-    cookies: Cookies, message: MessageOut,
+    cookies: Cookies,
+    message: Message,
     status: RedirectStatus,
     location: string | URL
 ) => ReturnType<typeof redirect>;
 
-export type FlashMessage = { path: string; } & MessageOut;
-
-export type ToastNotification = {
-    auto_dismiss_duration: number;
-    id: string;
-    message_type: MessageType;
-} & MessageOut;
+export type FlashMessage = { path: string; } & Message;
+export type BaseToast = { auto_dismiss_duration: number; } & Message;
+export type Toast = { id: string; } & BaseToast;

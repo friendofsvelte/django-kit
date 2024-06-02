@@ -3,7 +3,7 @@
     import {fade} from 'svelte/transition';
     import {quintOut} from 'svelte/easing';
     import {notifier} from "$lib/notifier.svelte.js";
-    import Toast from "$lib/components/Toast.svelte";
+    import Toast from "$lib/components/DefaultToast.svelte";
 
     let {children} = $props();
 </script>

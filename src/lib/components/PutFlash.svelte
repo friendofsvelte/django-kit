@@ -2,15 +2,23 @@
     import {page} from '$app/stores';
     import {parse} from 'cookie';
     import {afterNavigate} from '$app/navigation';
-    import type {FlashMessage, MessageOut} from "$lib/types.js";
-    import {add_toast} from "$lib/notifier.svelte.js";
+    import type {FlashMessage, Message, MessageFlux,} from "$lib/types.js";
+    import {add_toast, dismiss_toast_after} from "$lib/notifier.svelte.js";
     import {untrack} from "svelte";
 
-    function trigger_message(msg_source: MessageOut) {
-        if (msg_source && msg_source?.message) {
-            const toast = {...msg_source, message_type: msg_source?.message_type || 'warning'};
-            untrack(() => add_toast(toast));
-        }
+    function flux_message_to_proper(msg_source: MessageFlux) {
+        if (!msg_source || !msg_source.message) return;
+        return {
+            message_type: msg_source?.message_type || 'warning',
+            alias: msg_source?.alias || 'system',
+            message: msg_source.message,
+            action: msg_source.action,
+        } as Message;
+    }
+
+    function trigger_message(msg_source: MessageFlux) {
+        const proper_msg = flux_message_to_proper(msg_source);
+        if (proper_msg) untrack(() => dismiss_toast_after(add_toast(proper_msg)));
     }
 
     $effect(() => {

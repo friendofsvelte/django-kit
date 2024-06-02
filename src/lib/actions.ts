@@ -1,6 +1,6 @@
 import {type Actions, fail, redirect, type RequestEvent} from '@sveltejs/kit';
 // @ts-ignore
-import type {MessageOut} from "./types";
+import type {Message} from "./types";
 
 import {SECRET_BASE_API} from "$env/static/private";
 import {assign_cookies} from "$lib/utils.js";
@@ -68,12 +68,12 @@ export const via_route_name =
                             message: 'Something went wrong.',
                             message_type: 'error',
                             alias: 'internal_server_error'
-                        } as MessageOut);
+                        } as Message);
                     }
                     if ("redirect" in data && typeof data.redirect === "string" && data.redirect.startsWith("/")) {
                         if ("message" in data && typeof data.message === "string") {
                             put_flash(event.cookies, {
-                                ...data as MessageOut,
+                                ...data as Message,
                                 path: data.redirect
                             });
                         }
@@ -137,7 +137,7 @@ export const via_route =
                         message: "Something went wrong.",
                         message_type: "error",
                         alias: "internal_server_error"
-                    } as MessageOut);
+                    } as Message);
                 }
             }
             actions = {...actions, ...action};
