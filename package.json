@@ -27,6 +27,10 @@
       "types": "./dist/flash_message.d.ts",
       "import": "./dist/flash_message.js"
     },
+    "./handle": {
+      "types": "./dist/fetch_hook.d.ts",
+      "import": "./dist/fetch_hook.js"
+    },
     "./styles/*.css": "./dist/styles/*.css",
     "./components/*.svelte": {
       "types": "./dist/components/*.svelte.d.ts",
