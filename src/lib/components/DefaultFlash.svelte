@@ -13,7 +13,7 @@
     {#if children}
         {@render children()}
     {:else}
-        <div class="toast-notifications">
+        <div class="toasts">
             {#each notifier.toasts as toast (toast.id)}
                 <div transition:fade animate:flip={{easing: quintOut, duration: 500}}>
                     <Toast {toast}/>

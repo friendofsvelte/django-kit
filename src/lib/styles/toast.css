@@ -1,4 +1,4 @@
-.toast-notifications {
+.toasts {
     position: fixed;
     top: 0;
     right: 0;
@@ -9,7 +9,7 @@
     padding: 1rem;
 }
 
-.toast-notification {
+.toast {
     background-color: #333;
     color: #fff;
     padding: 1rem;
@@ -22,66 +22,66 @@
     font-weight: lighter;
 }
 
-.toast-notification__head {
+.tn__head {
     display: flex;
     justify-content: space-between;
     align-items: start;
     gap: 0.3rem;
 }
 
-.toast-notification .toast-notification__icon {
+.toast .tn_icon {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.toast-notification .toast-notification__icon::before {
+.toast .tn_icon::before {
     content: "";
     color: #fff;
     height: min-content;
 }
 
-.toast-notification.success .toast-notification__icon::before {
+.toast.success .tn_icon::before {
     content: "\2714";
 }
 
-.toast-notification.error .toast-notification__icon::before {
+.toast.error .tn_icon::before {
     content: "\2716";
 }
 
-.toast-notification.warning .toast-notification__icon::before {
+.toast.warning .tn_icon::before {
     content: "\26A0";
 }
 
-.toast-notification.info .toast-notification__icon::before {
+.toast.info .tn_icon::before {
     content: "\2139";
 }
 
-.toast-notification.success {
+.toast.success {
     background-color: #28a745;
 }
 
-.toast-notification.error {
+.toast.error {
     background-color: #dc3545;
 }
 
-.toast-notification.warning {
+.toast.warning {
     background-color: #ffc107;
 }
 
-.toast-notification.info {
+.toast.info {
     background-color: #17a2b8;
 }
 
-.toast-notification:hover {
+.toast:hover {
     transform: scale(1.05);
 }
 
-.toast-notification__message {
+.tn_msg {
     margin-top: 0.5rem;
 }
 
-.toast-notification__close {
+.tn_exit {
     cursor: pointer;
     font-size: 0.75rem;
     color: #fff;
@@ -95,6 +95,6 @@
     margin: 0;
 }
 
-.toast-notification .action {
+.toast .action {
     margin-top: 1rem;
 }

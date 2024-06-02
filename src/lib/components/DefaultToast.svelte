@@ -5,16 +5,13 @@
     export let toast: Toast;
 </script>
 
-<div class="toast-notification {toast.message_type}">
-    <div class="toast-notification__head">
-        <span class="toast-notification__icon"></span>
-        <h3 class="toast-notification__message">{toast.message}</h3>
-        <button class="toast-notification__close" on:click={() => dismiss_toast(toast.id)}>
-            {'✕'}
-        </button>
+<div class="toast {toast.message_type}">
+    <div class="tn__head">
+        <span class="tn_icon"></span>
+        <h3 class="tn_msg">{toast.message}</h3>
+        <button class="tn_exit" on:click={() => dismiss_toast(toast.id)}>{'✕'}</button>
     </div>
     {#if toast.action}
-        <a href="{toast.action.path}"
-           class="action">{toast.action.label}</a>
+        <a href="{toast.action.path}" class="action">{toast.action.label}</a>
     {/if}
 </div>
