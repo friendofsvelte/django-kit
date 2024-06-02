@@ -6,6 +6,7 @@ export const assign_cookies = (event: RequestEvent, response: Response) => {
     if (!cookiesHeader) return;
     for (const str of splitCookiesString(cookiesHeader)) {
         const {name, value, ...options} = parseString(str);
+        // @ts-ignore
         event.cookies.set(name, value, {...options});
     }
 };

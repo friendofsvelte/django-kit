@@ -1,10 +1,10 @@
 import {type Actions, fail, redirect, type RequestEvent} from '@sveltejs/kit';
 // @ts-ignore
-import type {Message} from "./types";
+import type {Message} from "../types.js";
 
 import {SECRET_BASE_API} from "$env/static/private";
-import {assign_cookies} from "$lib/utils.js";
-import {put_flash} from "$lib/flash_message.js";
+import {assign_cookies} from "$lib/server/utils.js";
+import {put_flash} from "$lib/server/flash.js";
 
 export type NamedActionInfo = {
     name: string,
@@ -73,6 +73,7 @@ export const via_route_name =
                     if ("redirect" in data && typeof data.redirect === "string" && data.redirect.startsWith("/")) {
                         if ("message" in data && typeof data.message === "string") {
                             put_flash(event.cookies, {
+                                // @ts-ignore
                                 ...data as Message,
                                 path: data.redirect
                             });

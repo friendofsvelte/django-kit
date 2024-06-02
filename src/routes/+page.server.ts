@@ -1,4 +1,4 @@
-import flash_redirect, {put_flash} from "$lib/flash_message.js";
+import flash_redirect, {put_flash} from "$lib/server/flash.js";
 import type {Actions} from "@sveltejs/kit";
 
 export const load = async ({locals, cookies}) => {

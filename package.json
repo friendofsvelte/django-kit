@@ -15,21 +15,13 @@
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
     },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "import": "./dist/utils.js"
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js"
     },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/types.js"
-    },
-    "./flash": {
-      "types": "./dist/flash_message.d.ts",
-      "import": "./dist/flash_message.js"
-    },
-    "./handle": {
-      "types": "./dist/fetch_hook.d.ts",
-      "import": "./dist/fetch_hook.js"
+    "./server/*": {
+      "types": "./dist/server/*.d.ts",
+      "import": "./dist/server/*.js"
     },
     "./styles/*.css": "./dist/styles/*.css",
     "./components/*.svelte": {
