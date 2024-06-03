@@ -122,10 +122,10 @@ export const via_route =
             proxy_action.path = opt_.prefix + proxy_action.path;
             const action = {
                 [proxy_action.path]: async (event: RequestEvent) => {
-                    const p_sfx = event.url.searchParams.get("p_sfx") || ""; // path suffix
+                    const suffix = event.url.searchParams.get("_sfx") || ""; // path suffix
                     try {
                         const form_data = await event.request.formData();
-                        let url = `${opt_.django_base_api}/${proxy_action.path}${p_sfx}`;
+                        let url = `${opt_.django_base_api}/${proxy_action.path}${suffix}`;
                         let options: RequestInit = {method: proxy_action.method}
                         if (proxy_action.method === "POST" || proxy_action.method === "PUT") {
                             options = {...options, body: form_data};
