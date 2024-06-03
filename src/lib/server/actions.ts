@@ -6,15 +6,16 @@ import {SECRET_BASE_API} from "$env/static/private";
 import {assign_cookies} from "$lib/server/utils.js";
 import {put_flash} from "$lib/server/flash.js";
 
+export type BASE_METHOD = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type NamedActionInfo = {
     name: string,
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: BASE_METHOD,
     allow_cookies?: boolean
 }
 
 export type PathActionInfo = {
     path: string,
-    method: 'GET' | 'POST',
+    method: BASE_METHOD,
     allow_cookies?: boolean
 }
 
@@ -126,10 +127,10 @@ export const via_route =
                         const form_data = await event.request.formData();
                         let url = `${opt_.django_base_api}/${proxy_action.path}${p_sfx}`;
                         let options: RequestInit = {method: proxy_action.method}
-                        if (proxy_action.method === 'GET') {
-                            url = `${url}?${new URLSearchParams(form_data as any).toString()}`;
-                        } else {
+                        if (proxy_action.method === "POST" || proxy_action.method === "PUT") {
                             options = {...options, body: form_data};
+                        } else {
+                            url = `${url}?${new URLSearchParams(form_data as any).toString()}`;
                         }
                         const response = await event.fetch(url, options);
 
