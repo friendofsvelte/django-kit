@@ -63,6 +63,9 @@ export const via_route_name =
                         if (proxy_action.allow_cookies || opt_.allow_cookies) {
                             assign_cookies(event, response);
                         }
+                        if (response.status === 204) {
+                            return;
+                        }
                         data = await response.json();
                     } catch (e) {
                         console.log("ERR:", e);
