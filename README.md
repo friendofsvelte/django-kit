@@ -19,6 +19,8 @@ keeping the reactivity intact, `$page.form` is updated automatically when the fo
 
 - Use Django's forms and validation with SvelteKit.
 - Flash messages are automatically shown in SvelteKit.
+- Custom/manual toast messages can be shown.
+- Cookie management is handled automatically, or you can do it manually.
 
 ## Installation
 

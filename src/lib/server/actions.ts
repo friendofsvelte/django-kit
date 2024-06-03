@@ -8,7 +8,7 @@ import {put_flash} from "$lib/server/flash.js";
 
 export type NamedActionInfo = {
     name: string,
-    method: 'GET' | 'POST',
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
     allow_cookies?: boolean
 }
 
@@ -50,9 +50,10 @@ export const via_route_name =
                     let url = `${opt_.django_base_api}/trvun/?url_name=${proxy_action.name}`;
                     let options: RequestInit = {method: proxy_action.method};
 
-                    if (proxy_action.method === 'GET')
+                    if (proxy_action.method === 'POST' || proxy_action.method === 'PUT')
+                        options = {...options, body: form_data};
+                    else
                         url = `${url}&${new URLSearchParams(form_data as any).toString()}`;
-                    else options = {...options, body: form_data};
 
                     let response: Response;
                     let data = {};
