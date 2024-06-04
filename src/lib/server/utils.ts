@@ -15,10 +15,10 @@ export const assign_cookies = (event: RequestEvent, response: Response) => {
 export const get_headers = (event: RequestEvent, allow_ctp = false) => {
     const SESSION_ID = event.cookies.get('sessionid') as string;
     const CSRF_TOKEN = event.cookies.get('csrftoken') as string;
-    let include_content_type_obj = {};
-    if (allow_ctp) include_content_type_obj = {'Content-Type': 'application/json'};
+    let content_type_obj = {};
+    if (allow_ctp) content_type_obj = {'Content-Type': 'application/json'};
     return {
-        ...include_content_type_obj,
+        ...content_type_obj,
         'Cookie': `sessionid=${SESSION_ID};csrftoken=${CSRF_TOKEN}`,
         'X-CSRFToken': CSRF_TOKEN,
         'X-Forwarded-For': event.request.headers.get('X-Forwarded-For') || event.getClientAddress() || 'unknown',

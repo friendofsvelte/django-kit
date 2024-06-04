@@ -13,7 +13,7 @@ export const django_fetch_handle: HandleFetch = async ({request, fetch, event}) 
     const is_api_req = request.url.includes(`$api/`);
 
     if (is_api_req) {
-        const headers = get_headers(event)
+        const headers = get_headers(event, true);
         assign_headers(request, headers);
 
         const req_url = `${SECRET_BASE_API}/${request.url.split('$api/')[1]}`;
