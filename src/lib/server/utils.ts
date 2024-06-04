@@ -1,5 +1,6 @@
 import type {RequestEvent} from "@sveltejs/kit";
 import {parseString, splitCookiesString} from 'set-cookie-parser';
+import type {AuthHeader} from "$lib/types.js";
 
 export const assign_cookies = (event: RequestEvent, response: Response) => {
     const cookiesHeader = response.headers.get('set-cookie');
@@ -10,3 +11,27 @@ export const assign_cookies = (event: RequestEvent, response: Response) => {
         event.cookies.set(name, value, {...options});
     }
 };
+
+export const get_headers = (event: RequestEvent) => {
+    const SESSION_ID = event.cookies.get('sessionid') as string;
+    const CSRF_TOKEN = event.cookies.get('csrftoken') as string;
+    return {
+        'Content-Type': 'application/json',
+        'Cookie': `sessionid=${SESSION_ID};csrftoken=${CSRF_TOKEN}`,
+        'X-CSRFToken': CSRF_TOKEN,
+        'X-Forwarded-For': event.request.headers.get('X-Forwarded-For') || event.getClientAddress() || 'unknown',
+        'Referer': event.url.pathname,
+        'X-Referer-URL': event.url.href,
+        'Route-ID': event.route.id || '',
+        'Origin': event.url.origin || '',
+        'User-Agent': event.request.headers.get('User-Agent') || ''
+    } as AuthHeader;
+}
+
+export const assign_headers = (request: Request, headers: AuthHeader) => {
+    Object.keys(headers).forEach((key) => {
+        if (!request.headers.has(key)) {
+            request.headers.set(key, headers[key as keyof AuthHeader]);
+        }
+    });
+}

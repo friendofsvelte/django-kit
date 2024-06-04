@@ -3,7 +3,7 @@ import {type Actions, fail, redirect, type RequestEvent} from '@sveltejs/kit';
 import type {Message} from "../types.js";
 
 import {SECRET_BASE_API} from "$env/static/private";
-import {assign_cookies} from "$lib/server/utils.js";
+import {assign_cookies, get_headers} from "$lib/server/utils.js";
 import {put_flash} from "$lib/server/flash.js";
 
 export type BASE_METHOD = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -19,12 +19,13 @@ export type PathActionInfo = {
     allow_cookies?: boolean
 }
 
-type Options = { django_base_api?: string, allow_cookies?: boolean }
+type Options = { django_base_api?: string, allow_cookies?: boolean, add_headers?: boolean }
 type PrefixOptions = { prefix?: string } & Options
 
 const default_options = {
     django_base_api: SECRET_BASE_API,
-    allow_cookies: false
+    allow_cookies: true,
+    add_headers: true
 } as Options;
 
 
@@ -46,10 +47,11 @@ export const via_route_name =
             }
             const action: Actions = {
                 [proxy_action.name]: async (event: RequestEvent) => {
-
                     const form_data = await event.request.formData();
                     let url = `${opt_.django_base_api}/trvun/?url_name=${proxy_action.name}`;
-                    let options: RequestInit = {method: proxy_action.method};
+                    let options: RequestInit = {method: proxy_action.method}
+
+                    if (opt_.add_headers) options = {...options, headers: get_headers(event)};
 
                     if (proxy_action.method === 'POST' || proxy_action.method === 'PUT')
                         options = {...options, body: form_data};
@@ -130,6 +132,8 @@ export const via_route =
                         const form_data = await event.request.formData();
                         let url = `${opt_.django_base_api}/${proxy_action.path}${suffix}`;
                         let options: RequestInit = {method: proxy_action.method}
+                        if (opt_.add_headers) options = {...options, headers: get_headers(event)};
+
                         if (proxy_action.method === "POST" || proxy_action.method === "PUT") {
                             options = {...options, body: form_data};
                         } else {

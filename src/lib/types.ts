@@ -8,6 +8,17 @@ type ActionPathRequired = {
         label: string;
     };
 }
+export type AuthHeader = {
+    'Content-Type': 'application/json';
+    Cookie: string;
+    'X-CSRFToken': string;
+    'X-Forwarded-For': string;
+    Referer: string;
+    'X-Referer-URL': string;
+    'Route-ID': string;
+    Origin: string;
+    'User-Agent': string;
+}
 
 export type BaseMessage = {
     message_type: MessageType
