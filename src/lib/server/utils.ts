@@ -12,11 +12,13 @@ export const assign_cookies = (event: RequestEvent, response: Response) => {
     }
 };
 
-export const get_headers = (event: RequestEvent) => {
+export const get_headers = (event: RequestEvent, allow_ctp = false) => {
     const SESSION_ID = event.cookies.get('sessionid') as string;
     const CSRF_TOKEN = event.cookies.get('csrftoken') as string;
+    let include_content_type_obj = {};
+    if (allow_ctp) include_content_type_obj = {'Content-Type': 'application/json'};
     return {
-        'Content-Type': 'application/json',
+        ...include_content_type_obj,
         'Cookie': `sessionid=${SESSION_ID};csrftoken=${CSRF_TOKEN}`,
         'X-CSRFToken': CSRF_TOKEN,
         'X-Forwarded-For': event.request.headers.get('X-Forwarded-For') || event.getClientAddress() || 'unknown',

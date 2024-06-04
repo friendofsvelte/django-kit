@@ -9,7 +9,7 @@ type ActionPathRequired = {
     };
 }
 export type AuthHeader = {
-    'Content-Type': 'application/json';
+    'Content-Type': 'application/json' | 'multipart/form-data';
     Cookie: string;
     'X-CSRFToken': string;
     'X-Forwarded-For': string;
