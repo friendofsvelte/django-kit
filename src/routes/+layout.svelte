@@ -1,7 +1,7 @@
 <script>
+    import {add_toast, dismiss_toast_after} from "$lib/notifier.svelte";
     import DefaultFlash from "$lib/components/DefaultFlash.svelte";
     import "$lib/styles/toast.css";
-    import {add_toast, dismiss_toast_after} from "$lib/notifier.svelte";
     import PutFlash from "$lib/components/PutFlash.svelte";
 
     let {children} = $props();

@@ -23,6 +23,7 @@ export type AuthHeader = {
 export type BaseMessage = {
     message_type: MessageType
     message: string;
+    alias?: string;
 } & ActionPathRequired;
 
 export type Message = {
