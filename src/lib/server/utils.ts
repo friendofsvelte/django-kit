@@ -1,8 +1,8 @@
-import type {RequestEvent} from "@sveltejs/kit";
+import type {Cookies, RequestEvent} from "@sveltejs/kit";
 import {parseString, splitCookiesString} from 'set-cookie-parser';
 import type {AuthHeader} from "$lib/types.js";
 
-export const assign_cookies = (event: RequestEvent, response: Response) => {
+export const assign_cookies = (event: { cookies: Cookies } | RequestEvent, response: Response) => {
     const cookiesHeader = response.headers.get('set-cookie');
     if (!cookiesHeader) return;
     for (const str of splitCookiesString(cookiesHeader)) {
